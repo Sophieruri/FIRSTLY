@@ -23,7 +23,7 @@ void main() {
           body:Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAllignment:MainAxisAlignment.center,
               children: [
 
                 //Text( Text(
@@ -42,7 +42,7 @@ void main() {
                   child:Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children:[
-                      Text("Enter Username",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700,
+                      Text("Enter Username",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),
                   ),
                    ),
                     ],

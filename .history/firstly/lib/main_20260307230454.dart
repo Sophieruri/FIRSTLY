@@ -23,7 +23,7 @@ void main() {
           body:Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAllignment:MainAxisAlignment.center,
               children: [
 
                 //Text( Text(
