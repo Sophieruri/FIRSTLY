@@ -1,22 +1,18 @@
 import 'package:firstly/configs/routes.dart';
+
 import 'package:firstly/views/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+// ignore: unused_import
+import 'package:get/utils.dart';
+
 void main() {
-  runApp(const MyApp());
-  
-}
-class MyApp extends StatelessWidget {
-  const MyApp({super. key}) ;
-  
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
+  runApp(
+    GetMaterialApp(
       initialRoute: "/",
-      getPages:routes,
+      getPages: routes,
       debugShowCheckedModeBanner: false,
       home: LoginScreen(),
-    
-    );
-  }
-                
+    ),
+  );
+}
