@@ -17,11 +17,13 @@ class _SignuppageState extends State<Signuppage> {
 
       body: Stack(
         children: [
-          Image.asset(
-            "assets/download.jpg",
-            fit: BoxFit.cover,
-            height: double.infinity,
-            width: double.infinity,
+          Positioned.fill(
+            child: Image.asset(
+              "assets/image.png",
+              fit: BoxFit.cover,
+              // height: double.infinity,
+              // width: double.infinity,
+            ),
           ),
           SafeArea(
             bottom: false,
@@ -38,15 +40,15 @@ class _SignuppageState extends State<Signuppage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // SizedBox(height: 10.0,),
+                        
                         Text(
                           "Sign up",
-                          style: TextStyle(color: Colors.white, fontSize: 40.0),
+                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600,fontSize: 40.0),
                         ),
                         SizedBox(height: 10),
                         Text(
                           "Weclome!",
-                          style: TextStyle(color: Colors.white, fontSize: 20.0),
+                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 20.0),
                         ),
                       ],
                     ),
@@ -56,15 +58,14 @@ class _SignuppageState extends State<Signuppage> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(60.0),
-                          topRight: Radius.circular(60.0),
-                        ),
+                        borderRadius: BorderRadius.circular(20
+                        
+                        )
                       ),
 
                       child: SingleChildScrollView(
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
+                          padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
                           child: Column(
                             children: [
                               Padding(
@@ -75,12 +76,7 @@ class _SignuppageState extends State<Signuppage> {
                                     borderRadius: BorderRadius.circular(10),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: const Color.fromARGB(
-                                          255,
-                                          2,
-                                          39,
-                                          4,
-                                        ),
+                                        color: const Color.fromARGB(255, 2, 39, 39),
                                         blurRadius: 20,
                                         offset: Offset(0, 10),
                                       ),
@@ -92,7 +88,7 @@ class _SignuppageState extends State<Signuppage> {
                                         decoration: BoxDecoration(
                                           border: Border(
                                             bottom: BorderSide(
-                                              color: Colors.grey,
+                                              color: Colors.black,
                                             ),
                                           ),
                                         ),
@@ -110,7 +106,7 @@ class _SignuppageState extends State<Signuppage> {
                                         decoration: BoxDecoration(
                                           border: Border(
                                             bottom: BorderSide(
-                                              color: Colors.grey,
+                                              color: Colors.black,
                                             ),
                                           ),
                                         ),
@@ -128,7 +124,7 @@ class _SignuppageState extends State<Signuppage> {
                                         decoration: BoxDecoration(
                                           border: Border(
                                             bottom: BorderSide(
-                                              color: Colors.grey,
+                                              color: Colors.black,
                                             ),
                                           ),
                                         ),
@@ -145,7 +141,7 @@ class _SignuppageState extends State<Signuppage> {
                                         decoration: BoxDecoration(
                                           border: Border(
                                             bottom: BorderSide(
-                                              color: Colors.grey,
+                                              color: Colors.black,
                                             ),
                                           ),
                                         ),
@@ -167,7 +163,7 @@ class _SignuppageState extends State<Signuppage> {
                                         decoration: BoxDecoration(
                                           border: Border(
                                             bottom: BorderSide(
-                                              color: Colors.grey,
+                                              color: Colors.black,
                                             ),
                                           ),
                                         ),
@@ -202,14 +198,14 @@ class _SignuppageState extends State<Signuppage> {
                                 height: 50.0,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 3, 52, 5),
+                                  color: const Color.fromARGB(255, 2, 39, 39),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Text(
                                   "Sign up",
                                   style: TextStyle(
                                     fontSize: 16.0,
-                                    color: Colors.grey,
+                                    color: Colors.black,
                                   ),
                                 ),
                               ),
@@ -218,7 +214,7 @@ class _SignuppageState extends State<Signuppage> {
                               Text(
                                 "Sign up with",
 
-                                style: TextStyle(color: Colors.grey),
+                                style: TextStyle(color: Colors.black),
                               ),
                               SizedBox(height: 40),
                               Row(

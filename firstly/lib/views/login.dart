@@ -1,6 +1,12 @@
+import 'package:firstly/controllers/logincontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+
+LoginController logincontroller = Get.put(LoginController());
+TextEditingController usernameController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -47,7 +53,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Text(
                     "Enter Username",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
                   ),
                 ],
               ),
@@ -56,12 +67,12 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: TextField(
+                controller: usernameController,
                 decoration: InputDecoration(
                   hint: Text("Email or phone number"),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-
                   prefixIcon: Icon(Icons.person),
                 ),
               ),
@@ -74,20 +85,35 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Text(
                     "Enter Password",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: const EdgeInsets.fromLTRB(25, 0, 20, 5),
               child: TextField(
+                obscureText: logincontroller.isPasswordVisible.value,
+                controller: passwordController,
                 decoration: InputDecoration(
-                  hint: Text("confirm Password"),
+                  hint: Text("Pin or Password"),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  prefixIcon: Icon(Icons.lock),
+                  prefixIcon: Icon(Icons.person),
+                  suffixIcon: GestureDetector(child: Icon(
+                    logincontroller.isPasswordVisible.value
+                    ?Icons.visibility_off
+                    :Icons.visibility,
+                    )
+                    // onTap:(){
+                    //   logincontroller.togglePassword();
+                    // }
+                    ),
                 ),
               ),
             ),
@@ -100,18 +126,40 @@ class _LoginScreenState extends State<LoginScreen> {
             // ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              child: Container(
-                height: 50,
-                width: double.infinity,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.circular(20),
+              child: GestureDetector(
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 2, 39, 39),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    "login",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-                child: Text(
-                  "login",
-                  style: TextStyle(color: Colors.white, fontSize: 14),
-                ),
+                onTap: () {
+                  bool success = logincontroller.login(
+                    usernameController.text,
+                    passwordController.text,
+                  );
+                  if (success) {
+                    Get.offAndToNamed("/homescreen");
+                  } else {
+                    Get.snackbar(
+                      "Login Failed",
+                      "Invalid username or password",
+                      
+                    );
+                  }
+                  // Get.toNamed("/homescreen");
+                },
               ),
             ),
             Row(
@@ -122,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text(
                     "Sign up",
                     style: TextStyle(
-                      color: Colors.amber,
+                      color: Color.fromARGB(255, 2, 39, 39),
                       fontWeight: FontWeight.w700,
                     ),
                   ),
