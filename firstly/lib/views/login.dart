@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:firstly/controllers/logincontroller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:http/http.dart' as http;
 
 LoginController logincontroller = Get.put(LoginController());
-TextEditingController usernameController = TextEditingController();
-TextEditingController passwordController = TextEditingController();
+TextEditingController username = TextEditingController();
+TextEditingController password = TextEditingController();
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -36,15 +40,6 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //Text( Text(
-            //   "Jumia Marketplace",
-            //   style: TextStyle(
-            //     color: Colors.blue,
-            //     fontSize: 30,
-            //     fontWeight: FontWeight.w800,
-            //   ),
-            //),
-            // ),
             Image.asset("assets/download.jpg"),
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 0, 20, 5),
@@ -67,7 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: TextField(
-                controller: usernameController,
                 decoration: InputDecoration(
                   hint: Text("Email or phone number"),
                   border: OutlineInputBorder(
@@ -97,23 +91,22 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 0, 20, 5),
               child: TextField(
-                obscureText: logincontroller.isPasswordVisible.value,
-                controller: passwordController,
                 decoration: InputDecoration(
                   hint: Text("Pin or Password"),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
                   prefixIcon: Icon(Icons.person),
-                  suffixIcon: GestureDetector(child: Icon(
-                    logincontroller.isPasswordVisible.value
-                    ?Icons.visibility_off
-                    :Icons.visibility,
-                    )
+                  suffixIcon: GestureDetector(
+                    child: Icon(
+                      logincontroller.isPasswordVisible.value
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                    ),
                     // onTap:(){
                     //   logincontroller.togglePassword();
                     // }
-                    ),
+                  ),
                 ),
               ),
             ),
@@ -135,6 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: Color.fromARGB(255, 2, 39, 39),
                     borderRadius: BorderRadius.circular(20),
                   ),
+
                   child: Text(
                     "login",
                     style: TextStyle(
@@ -144,22 +138,33 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                onTap: () {
-                  bool success = logincontroller.login(
-                    usernameController.text,
-                    passwordController.text,
-                  );
-                  if (success) {
-                    Get.offAndToNamed("/homescreen");
+
+                onTap: () async {
+                  if (username.text.isEmpty) {
+                    Get.snackbar("Error", "Enter username");
+                  } else if (password.text.isEmpty) {
+                    Get.snackbar("Error", "Enter password");
                   } else {
-                    Get.snackbar(
-                      "Login Failed",
-                      "Invalid username or password",
-                      
+                    final response = await http.get(
+                      Uri.parse("http://192.168.0.111/travelapp/login.php?phone=${username.text}&password=${password.text}"),
                     );
+                    if(response.statusCode==200){
+                      final serverData =jsonDecode(response.body);
+                       if (serverData ['code']==1){
+                        String phone =serverData["user details"] [0] ["phone"];
+                        //print(phone);
+                        Get.toNamed('/home');
+                       }
+                       else{
+                        Get.snackbar("Wrong Credentials",serverData["message"] );
+                       }
+                    }else{
+                      Get.snackbar("Server Error", "Error occuredwhile logging in");
+
+                    }
+                    };
                   }
-                  // Get.toNamed("/homescreen");
-                },
+                
               ),
             ),
             Row(

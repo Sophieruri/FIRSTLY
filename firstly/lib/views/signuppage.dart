@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'dart:convert';
+
+TextEditingController username = TextEditingController();
+TextEditingController email = TextEditingController();
+TextEditingController phone = TextEditingController();
+TextEditingController password = TextEditingController();
+TextEditingController passwordAgain = TextEditingController();
 
 class Signuppage extends StatefulWidget {
   const Signuppage({Key? key}) : super(key: key);
@@ -40,15 +49,22 @@ class _SignuppageState extends State<Signuppage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        
                         Text(
                           "Sign up",
-                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600,fontSize: 40.0),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 40.0,
+                          ),
                         ),
                         SizedBox(height: 10),
                         Text(
                           "Weclome!",
-                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 20.0),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20.0,
+                          ),
                         ),
                       ],
                     ),
@@ -58,9 +74,7 @@ class _SignuppageState extends State<Signuppage> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20
-                        
-                        )
+                        borderRadius: BorderRadius.circular(20),
                       ),
 
                       child: SingleChildScrollView(
@@ -76,7 +90,12 @@ class _SignuppageState extends State<Signuppage> {
                                     borderRadius: BorderRadius.circular(10),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: const Color.fromARGB(255, 2, 39, 39),
+                                        color: const Color.fromARGB(
+                                          255,
+                                          2,
+                                          39,
+                                          39,
+                                        ),
                                         blurRadius: 20,
                                         offset: Offset(0, 10),
                                       ),
@@ -93,6 +112,7 @@ class _SignuppageState extends State<Signuppage> {
                                           ),
                                         ),
                                         child: TextFormField(
+                                          controller: username,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
 
@@ -111,6 +131,7 @@ class _SignuppageState extends State<Signuppage> {
                                           ),
                                         ),
                                         child: TextFormField(
+                                          controller: email,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
 
@@ -129,6 +150,7 @@ class _SignuppageState extends State<Signuppage> {
                                           ),
                                         ),
                                         child: TextFormField(
+                                          controller: phone,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
 
@@ -146,6 +168,7 @@ class _SignuppageState extends State<Signuppage> {
                                           ),
                                         ),
                                         child: TextFormField(
+                                          controller: password,
                                           obscureText: true,
                                           obscuringCharacter: '*',
                                           decoration: InputDecoration(
@@ -168,6 +191,7 @@ class _SignuppageState extends State<Signuppage> {
                                           ),
                                         ),
                                         child: TextFormField(
+                                          controller: passwordAgain,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
 
@@ -194,20 +218,76 @@ class _SignuppageState extends State<Signuppage> {
                                 ],
                               ),
                               SizedBox(height: 30),
-                              Container(
-                                height: 50.0,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 2, 39, 39),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Text(
-                                  "Sign up",
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.black,
+                              GestureDetector(
+                                child: Container(
+                                  height: 50.0,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(255, 2, 39, 39),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+
+                                  child: Text(
+                                    "Sign up",
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
+                                onTap: () async {
+                                  if (username.text.isEmpty) {
+                                    Get.snackbar(
+                                      "error",
+                                      "Please Enter Username",
+                                    );
+                                  } else if (phone.text.isEmpty) {
+                                    Get.snackbar(
+                                      "Error",
+                                      "Please Enter Phone Number",
+                                    );
+                                  } else if (email.text.isEmpty) {
+                                    Get.snackbar("Error", "Please Enter Email");
+                                  } else if (password.text.isEmpty ||
+                                      passwordAgain.text.isEmpty ||
+                                      password.text.toString().compareTo(
+                                            passwordAgain.text.toString(),
+                                          ) !=
+                                          0) {
+                                    Get.snackbar(
+                                      "Error",
+                                      " Password and Password confimation should be none empty and matching ",
+                                    );
+                                  } else {
+                                    final response = await http.get(
+                                      Uri.parse(
+                                        "http://192.168.0.111/travelapp/create.php? here}}?id=&Name=${username.text}&Email=${email.text}&Password=${password.text}",
+                                      ),
+                                    );
+                                    if (response.statusCode == 200) {
+                                      final serverData = jsonDecode(
+                                        response.body,
+                                      );
+                                      if (serverData["success"] == 1) {
+                                        Get.snackbar(
+                                          "Success",
+                                          "You are registered",
+                                        );
+                                        Get.offAndToNamed("/");
+                                      } else {
+                                        Get.snackbar(
+                                          "Failed",
+                                          "Registration Failed. Email may already exist."
+                                        );
+
+                                      }
+                                    } else {
+                                      Get.snackbar(
+                                        "Error ","server error :{response.statusCode}"
+                                      );
+                                    }
+                                  }
+                                },
                               ),
                               SizedBox(height: 20),
                               TextField(),
