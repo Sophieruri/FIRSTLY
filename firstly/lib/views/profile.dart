@@ -1,7 +1,5 @@
-// 
 import 'package:flutter/material.dart';
-//import 'package:icons_plus/icons_plus.dart';
-
+import 'package:get/get.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -11,20 +9,58 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final TextEditingController _nameController = TextEditingController(
+    text: "Sophie Jerurbai",
+  );
+  final TextEditingController _emailController = TextEditingController(
+    text: "sophie@email.com",
+  );
+  final TextEditingController _phoneController = TextEditingController(
+    text: "+254 712 345 678",
+  );
+  final TextEditingController _passwordController = TextEditingController(
+    text: "",
+  );
+
+  bool _isEditing = false;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text("Profile", style: TextStyle(color: Colors.white)),
+        title: const Text("Profile", style: TextStyle(color: Colors.white)),
         centerTitle: true,
+        actions: [
+          // Edit toggle button
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: GestureDetector(
+              onTap: () {
+                setState(() => _isEditing = !_isEditing);
+              },
+              child: Icon(
+                _isEditing ? Icons.close : Icons.edit,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
       ),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          
+          // Background image
           Positioned.fill(
             child: Image.asset("assets/image.png", fit: BoxFit.cover),
           ),
@@ -34,10 +70,9 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Column(
                 children: [
-                  
                   Expanded(
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
@@ -49,78 +84,175 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            
-                            CircleAvatar(
-                              radius: 50,
-                              backgroundImage: AssetImage(
-                                "assets/netflix.webp",
-                              ), 
+                            // ── Avatar ──────────────────────────
+                            Stack(
+                              children: [
+                                CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: AssetImage(
+                                    "assets/download.jpg",
+                                  ),
+                                ),
+                                if (_isEditing)
+                                  Positioned(
+                                    bottom: 0,
+                                    right: 0,
+                                    child: CircleAvatar(
+                                      radius: 16,
+                                      backgroundColor: Colors.blue,
+                                      child: const Icon(
+                                        Icons.camera_alt,
+                                        size: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
 
-                           
+                            // ── Name & Email display ─────────────
                             Text(
-                              "Sophie Jerurbai",
-                              style: TextStyle(
-                                fontSize: 24,
+                              _nameController.text,
+                              style: const TextStyle(
+                                fontSize: 22,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 4),
                             Text(
-                              "sophie@email.com",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
+                              _emailController.text,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey,
                               ),
                             ),
-                            SizedBox(height: 30),
 
-                            
-                            _profileField("Full Name", "Sophie Jerurbai"),
-                            _profileField("Email", "sophie@email.com"),
-                            _profileField("Phone", "+254 712 345 678"),
+                            const SizedBox(height: 10),
+
+                            // ── Stats Row ───────────────────────
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                _statBox("0", "Trips"),
+                                _statBox("0", "Reviews"),
+                                _statBox("0", "Saved"),
+                              ],
+                            ),
+
+                            const Divider(height: 30),
+
+                            // ── Profile Fields ───────────────────
                             _profileField(
-                              "Password",
-                              "********",
+                              label: "Full Name",
+                              controller: _nameController,
+                              icon: Icons.person,
+                              enabled: _isEditing,
+                            ),
+                            _profileField(
+                              label: "Email",
+                              controller: _emailController,
+                              icon: Icons.email,
+                              enabled: _isEditing,
+                              type: TextInputType.emailAddress,
+                            ),
+                            _profileField(
+                              label: "Phone",
+                              controller: _phoneController,
+                              icon: Icons.phone,
+                              enabled: _isEditing,
+                              type: TextInputType.phone,
+                            ),
+                            _profileField(
+                              label: "New Password",
+                              controller: _passwordController,
+                              icon: Icons.lock,
+                              enabled: _isEditing,
                               obscure: true,
                             ),
 
-                            SizedBox(height: 30),
+                            const SizedBox(height: 10),
 
-                            Container(
-                              width: double.infinity,
-                              height: 50,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 2, 39, 39),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                "Save Changes",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
+                            // ── Save Button (only when editing) ──
+                            if (_isEditing)
+                              SizedBox(
+                                width: double.infinity,
+                                height: 50,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color.fromARGB(
+                                      255,
+                                      2,
+                                      39,
+                                      39,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() => _isEditing = false);
+                                    Get.snackbar(
+                                      "Success",
+                                      "Profile updated!",
+                                      backgroundColor: Colors.green,
+                                      colorText: Colors.white,
+                                    );
+                                  },
+                                  child: const Text(
+                                    "Save Changes",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
 
-                            SizedBox(height: 20),
+                            const SizedBox(height: 15),
 
-                            
-                            Container(
+                            // ── Logout Button ────────────────────
+                            SizedBox(
                               width: double.infinity,
                               height: 50,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 2, 39, 39),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                "Logout",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red.shade400,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Get.dialog(
+                                    AlertDialog(
+                                      title: const Text("Logout"),
+                                      content: const Text(
+                                        "Are you sure you want to logout?",
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () => Get.back(),
+                                          child: const Text("Cancel"),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Get.offAllNamed('/');
+                                          },
+                                          child: const Text(
+                                            "Logout",
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  "Logout",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
@@ -138,16 +270,45 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  
-  Widget _profileField(String label, String value, {bool obscure = false}) {
+  // ── Stat Box ───────────────────────────────────────────
+  Widget _statBox(String value, String label) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
+        ),
+        Text(label, style: const TextStyle(color: Colors.grey)),
+      ],
+    );
+  }
+
+  // ── Profile Field ──────────────────────────────────────
+  Widget _profileField({
+    required String label,
+    required TextEditingController controller,
+    required IconData icon,
+    bool obscure = false,
+    bool enabled = false,
+    TextInputType type = TextInputType.text,
+  }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
+      padding: const EdgeInsets.only(bottom: 16.0),
       child: TextFormField(
-        initialValue: value,
+        controller: controller,
         obscureText: obscure,
+        enabled: enabled,
+        keyboardType: type,
         decoration: InputDecoration(
           labelText: label,
+          prefixIcon: Icon(icon, color: Colors.blue),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+          filled: !enabled,
+          fillColor: enabled ? null : Colors.grey.shade100,
         ),
       ),
     );

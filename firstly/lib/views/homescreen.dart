@@ -1,8 +1,15 @@
+import 'package:flutter/material.dart';
 import 'package:firstly/views/bookings.dart';
 import 'package:firstly/views/dashboard.dart';
 import 'package:firstly/views/profile.dart';
-import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:get/get.dart';
+
+// ✅ Add this controller so Dashboard can switch tabs
+class HomeController extends GetxController {
+  final RxInt currentIndex = 0.obs;
+  void changePage(int index) => currentIndex.value = index;
+}
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -12,32 +19,29 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
-  int _page = 0;
-  final List<Widget> _views = [
-  Dashboard(),
-  Bookings(),
-  ProfilePage(),
-  ];
+  final HomeController homeController = Get.put(HomeController());
+
+  final List<Widget> _views = [Dashboard(), Bookings(), ProfilePage()];
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _views[_page],
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.white,
-        items: const [
-          Icon(Icons.home, size: 30),
-              Icon(Icons.search, size: 30),
-           Icon(Icons.person, size: 30),
-          // Icon(Icons.search, size: 30)
-          // Icon(Icons.dashboard, size: 30),
-          // Icon(Icons.shopping_cart, size: 30),
-          // Icon(Icons.person, size: 30),
-        ],
-        onTap: (index) {
-          setState(() {
-            _page = index;
-          });
-        },
+    return Obx(
+      () => Scaffold(
+        body: _views[homeController.currentIndex.value],
+        bottomNavigationBar: CurvedNavigationBar(
+          index: homeController.currentIndex.value,
+          backgroundColor: Colors.white,
+          color: const Color.fromARGB(255, 2, 39, 39),
+          animationDuration: const Duration(milliseconds: 300),
+          items: const [
+            Icon(Icons.home, size: 30, color: Colors.white),
+            Icon(Icons.bookmark, size: 30, color: Colors.white),
+            Icon(Icons.person, size: 30, color: Colors.white),
+          ],
+          onTap: (index) {
+            homeController.changePage(index);
+          },
+        ),
       ),
     );
   }

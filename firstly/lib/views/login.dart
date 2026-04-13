@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:firstly/controllers/logincontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+// import 'package:get/get_core/src/get_main.dart';
+// import 'package:get/get_instance/src/extension_instance.dart';
+// import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:http/http.dart' as http;
 
 LoginController logincontroller = Get.put(LoginController());
@@ -62,6 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: TextField(
+                controller: username,
                 decoration: InputDecoration(
                   hint: Text("Email or phone number"),
                   border: OutlineInputBorder(
@@ -91,6 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 0, 20, 5),
               child: TextField(
+                controller: password,
                 decoration: InputDecoration(
                   hint: Text("Pin or Password"),
                   border: OutlineInputBorder(
@@ -141,30 +143,39 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 onTap: () async {
                   if (username.text.isEmpty) {
-                    Get.snackbar("Error", "Enter username");
+                    Get.snackbar("Error", "Enter email");
                   } else if (password.text.isEmpty) {
                     Get.snackbar("Error", "Enter password");
                   } else {
-                    final response = await http.get(
-                      Uri.parse("http://192.168.0.111/travelapp/login.php?phone=${username.text}&password=${password.text}"),
-                    );
-                    if(response.statusCode==200){
-                      final serverData =jsonDecode(response.body);
-                       if (serverData ['code']==1){
-                        String phone =serverData["user details"] [0] ["phone"];
-                        //print(phone);
-                        Get.toNamed('/home');
-                       }
-                       else{
-                        Get.snackbar("Wrong Credentials",serverData["message"] );
-                       }
-                    }else{
-                      Get.snackbar("Server Error", "Error occuredwhile logging in");
-
+                    try {
+                      final response = await http.post(
+                        Uri.parse("http://localhost/travelapp/login.php"),
+                        body: {
+                          'Email': username.text,
+                          'Password': password.text,
+                        },
+                      );
+                      if (response.statusCode == 200) {
+                        final serverData = jsonDecode(response.body);
+                        if (serverData['code'] == 1) {
+                          Get.offAllNamed('/homescreen');
+                        } else {
+                          Get.snackbar(
+                            "Wrong Credentials",
+                            serverData["message"],
+                          );
+                        }
+                      } else {
+                        Get.snackbar(
+                          "Server Error",
+                          "Error occurred while logging in",
+                        );
+                      }
+                    } catch (e) {
+                      Get.snackbar("Error", "Could not connect to server");
                     }
-                    };
                   }
-                
+                },
               ),
             ),
             Row(
