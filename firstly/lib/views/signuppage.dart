@@ -28,7 +28,7 @@ class _SignuppageState extends State<Signuppage> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              "assets/image.png",
+              "assets/airtale_logo_poppins.svg_",
               fit: BoxFit.cover,
               // height: double.infinity,
               // width: double.infinity,

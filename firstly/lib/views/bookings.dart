@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:google_fonts/google_fonts.dart';
 
 class Bookings extends StatefulWidget {
   const Bookings({super.key});
@@ -49,10 +50,16 @@ class _BookingsState extends State<Bookings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("My Bookings"),
-        backgroundColor: Color.fromARGB(255, 2, 39, 39),
-        foregroundColor: Colors.white,
+     appBar: AppBar(
+        title: Text(
+          "My Bookings",
+          style: GoogleFonts.poppins(
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF023232),
+          ),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())

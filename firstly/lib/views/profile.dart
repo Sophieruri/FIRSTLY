@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -39,16 +40,19 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text("Profile", style: TextStyle(color: Colors.white)),
+        title: Text(
+          "Profile",
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         actions: [
-          // Edit toggle button
           Padding(
             padding: const EdgeInsets.only(right: 15),
             child: GestureDetector(
-              onTap: () {
-                setState(() => _isEditing = !_isEditing);
-              },
+              onTap: () => setState(() => _isEditing = !_isEditing),
               child: Icon(
                 _isEditing ? Icons.close : Icons.edit,
                 color: Colors.white,
@@ -60,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          // Background image
+          // ── Background image ─────────────────────────
           Positioned.fill(
             child: Image.asset("assets/image.png", fit: BoxFit.cover),
           ),
@@ -84,13 +88,18 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            // ── Avatar ──────────────────────────
+                            // ── Avatar ───────────────────────────
                             Stack(
                               children: [
                                 CircleAvatar(
                                   radius: 50,
-                                  backgroundImage: AssetImage(
-                                    "assets/download.jpg",
+                                  backgroundColor: const Color(
+                                    0xFF0077B6,
+                                  ).withOpacity(0.1),
+                                  child: const Icon(
+                                    Icons.person_rounded,
+                                    size: 60,
+                                    color: Color(0xFF0077B6),
                                   ),
                                 ),
                                 if (_isEditing)
@@ -99,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     right: 0,
                                     child: CircleAvatar(
                                       radius: 16,
-                                      backgroundColor: Colors.blue,
+                                      backgroundColor: const Color(0xFF0077B6),
                                       child: const Icon(
                                         Icons.camera_alt,
                                         size: 16,
@@ -109,28 +118,32 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                               ],
                             ),
+
                             const SizedBox(height: 15),
 
-                            // ── Name & Email display ─────────────
+                            // ── Name ─────────────────────────────
                             Text(
                               _nameController.text,
-                              style: const TextStyle(
+                              style: GoogleFonts.poppins(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
+                                color: const Color(0xFF023232),
                               ),
                             ),
                             const SizedBox(height: 4),
+
+                            // ── Email ────────────────────────────
                             Text(
                               _emailController.text,
-                              style: const TextStyle(
+                              style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 color: Colors.grey,
                               ),
                             ),
 
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 16),
 
-                            // ── Stats Row ───────────────────────
+                            // ── Stats Row ────────────────────────
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -146,48 +159,43 @@ class _ProfilePageState extends State<ProfilePage> {
                             _profileField(
                               label: "Full Name",
                               controller: _nameController,
-                              icon: Icons.person,
+                              icon: Icons.person_outline,
                               enabled: _isEditing,
                             ),
                             _profileField(
                               label: "Email",
                               controller: _emailController,
-                              icon: Icons.email,
+                              icon: Icons.email_outlined,
                               enabled: _isEditing,
                               type: TextInputType.emailAddress,
                             ),
                             _profileField(
                               label: "Phone",
                               controller: _phoneController,
-                              icon: Icons.phone,
+                              icon: Icons.phone_outlined,
                               enabled: _isEditing,
                               type: TextInputType.phone,
                             ),
                             _profileField(
                               label: "New Password",
                               controller: _passwordController,
-                              icon: Icons.lock,
+                              icon: Icons.lock_outline,
                               enabled: _isEditing,
                               obscure: true,
                             ),
 
                             const SizedBox(height: 10),
 
-                            // ── Save Button (only when editing) ──
+                            // ── Save Button ──────────────────────
                             if (_isEditing)
                               SizedBox(
                                 width: double.infinity,
                                 height: 50,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color.fromARGB(
-                                      255,
-                                      2,
-                                      39,
-                                      39,
-                                    ),
+                                    backgroundColor: const Color(0xFF0077B6),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(14),
                                     ),
                                   ),
                                   onPressed: () {
@@ -199,11 +207,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                       colorText: Colors.white,
                                     );
                                   },
-                                  child: const Text(
+                                  child: Text(
                                     "Save Changes",
-                                    style: TextStyle(
+                                    style: GoogleFonts.poppins(
                                       fontSize: 16,
                                       color: Colors.white,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
@@ -219,39 +228,61 @@ class _ProfilePageState extends State<ProfilePage> {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.red.shade400,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(14),
                                   ),
                                 ),
                                 onPressed: () {
                                   Get.dialog(
                                     AlertDialog(
-                                      title: const Text("Logout"),
-                                      content: const Text(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      title: Text(
+                                        "Logout",
+                                        style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color(0xFF023232),
+                                        ),
+                                      ),
+                                      content: Text(
                                         "Are you sure you want to logout?",
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.grey,
+                                        ),
                                       ),
                                       actions: [
                                         TextButton(
                                           onPressed: () => Get.back(),
-                                          child: const Text("Cancel"),
+                                          child: Text(
+                                            "Cancel",
+                                            style: GoogleFonts.poppins(
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
                                         ),
                                         TextButton(
                                           onPressed: () {
                                             Get.offAllNamed('/');
                                           },
-                                          child: const Text(
+                                          child: Text(
                                             "Logout",
-                                            style: TextStyle(color: Colors.red),
+                                            style: GoogleFonts.poppins(
+                                              color: const Color(0xFF0077B6),
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
                                   );
                                 },
-                                child: const Text(
+                                child: Text(
                                   "Logout",
-                                  style: TextStyle(
+                                  style: GoogleFonts.poppins(
                                     fontSize: 16,
                                     color: Colors.white,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),
@@ -276,13 +307,16 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         Text(
           value,
-          style: const TextStyle(
+          style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.blue,
+            color: const Color(0xFF0077B6),
           ),
         ),
-        Text(label, style: const TextStyle(color: Colors.grey)),
+        Text(
+          label,
+          style: GoogleFonts.poppins(color: Colors.grey, fontSize: 13),
+        ),
       ],
     );
   }
@@ -303,12 +337,28 @@ class _ProfilePageState extends State<ProfilePage> {
         obscureText: obscure,
         enabled: enabled,
         keyboardType: type,
+        style: GoogleFonts.poppins(fontSize: 14),
         decoration: InputDecoration(
           labelText: label,
-          prefixIcon: Icon(icon, color: Colors.blue),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          filled: !enabled,
-          fillColor: enabled ? null : Colors.grey.shade100,
+          labelStyle: GoogleFonts.poppins(
+            color: const Color(0xFF0077B6),
+            fontSize: 13,
+          ),
+          prefixIcon: Icon(icon, color: const Color(0xFF0077B6)),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Color(0xFF0077B6)),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
+          ),
+          filled: true,
+          fillColor: enabled ? Colors.white : Colors.grey.shade50,
         ),
       ),
     );
