@@ -148,7 +148,7 @@ class _BookingCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Destination name
+            
             Row(
               children: [
                 const Icon(Icons.location_on, color: Colors.blue),
@@ -170,7 +170,6 @@ class _BookingCard extends StatelessWidget {
 
             const Divider(height: 20),
 
-            // Date and rating row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

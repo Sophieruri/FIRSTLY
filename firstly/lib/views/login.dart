@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:firstly/controllers/logincontroller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -27,61 +28,47 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 40),
 
-              // ── Logo / Header ────────────────────────
-              Center(
-                child: Container(
-                  width: 70,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF0077B6), Color(0xFF00B4D8)],
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Icon(
-                    Icons.flight,
-                    color: Colors.white,
-                    size: 36,
-                  ),
-                ),
-              ),
+            
+              SvgPicture.asset("assets/airtale_logo.svg", height: 150),
+
               const SizedBox(height: 24),
-              Center(
-                child: Text(
-                  "Welcome Back",
-                  style: GoogleFonts.poppins(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF023232),
-                  ),
+
+              Text(
+                "Welcome Back",
+                style: GoogleFonts.poppins(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF023232),
                 ),
               ),
-              Center(
-                child: Text(
-                  "Sign in to continue your journey",
-                  style: GoogleFonts.poppins(fontSize: 14, color: Colors.grey),
-                ),
+              Text(
+                "Sign in to continue your journey",
+                style: GoogleFonts.poppins(fontSize: 14, color: Colors.grey),
               ),
 
               const SizedBox(height: 40),
 
-              // ── Email ────────────────────────────────
-              Text(
-                "Email",
-                style: GoogleFonts.poppins(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF023232),
+              
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Email",
+                  style: GoogleFonts.poppins(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF023232),
+                  ),
                 ),
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: username,
                 keyboardType: TextInputType.emailAddress,
+                style: GoogleFonts.poppins(fontSize: 14),
                 decoration: const InputDecoration(
                   hintText: "Enter your email",
                   prefixIcon: Icon(
@@ -93,19 +80,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const SizedBox(height: 20),
 
-              // ── Password ─────────────────────────────
-              Text(
-                "Password",
-                style: GoogleFonts.poppins(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF023232),
+        
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Password",
+                  style: GoogleFonts.poppins(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF023232),
+                  ),
                 ),
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: password,
                 obscureText: _obscurePassword,
+                style: GoogleFonts.poppins(fontSize: 14),
                 decoration: InputDecoration(
                   hintText: "Enter your password",
                   prefixIcon: const Icon(
@@ -127,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const SizedBox(height: 32),
 
-              // ── Login Button ─────────────────────────
+             
               SizedBox(
                 width: double.infinity,
                 height: 52,
@@ -188,27 +179,24 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const SizedBox(height: 24),
 
-              // ── Sign up link ─────────────────────────
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Don't have an account? ",
-                      style: GoogleFonts.poppins(color: Colors.grey),
-                    ),
-                    GestureDetector(
-                      onTap: () => Get.toNamed("/signup"),
-                      child: Text(
-                        "Sign up",
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xFF0077B6),
-                          fontWeight: FontWeight.w700,
-                        ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an account? ",
+                    style: GoogleFonts.poppins(color: Colors.grey),
+                  ),
+                  GestureDetector(
+                    onTap: () => Get.toNamed("/signup"),
+                    child: Text(
+                      "Sign up",
+                      style: GoogleFonts.poppins(
+                        color: const Color(0xFF0077B6),
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

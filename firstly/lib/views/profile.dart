@@ -37,248 +37,181 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          "Profile",
-          style: GoogleFonts.poppins(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: GestureDetector(
-              onTap: () => setState(() => _isEditing = !_isEditing),
-              child: Icon(
-                _isEditing ? Icons.close : Icons.edit,
-                color: Colors.white,
+      body: Stack(
+        children: [
+
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFF0077B6), Color(0xFF00B4D8)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
               ),
             ),
           ),
-        ],
-      ),
-      extendBodyBehindAppBar: true,
-      body: Stack(
-        children: [
-          // ── Background image ─────────────────────────
-          Positioned.fill(
-            child: Image.asset("assets/image.png", fit: BoxFit.cover),
-          ),
 
           SafeArea(
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
+            child: Column(
+              children: [
+                
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Profile",
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
                         ),
                       ),
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            // ── Avatar ───────────────────────────
-                            Stack(
-                              children: [
-                                CircleAvatar(
-                                  radius: 50,
-                                  backgroundColor: const Color(
-                                    0xFF0077B6,
-                                  ).withOpacity(0.1),
-                                  child: const Icon(
-                                    Icons.person_rounded,
-                                    size: 60,
-                                    color: Color(0xFF0077B6),
-                                  ),
-                                ),
-                                if (_isEditing)
-                                  Positioned(
-                                    bottom: 0,
-                                    right: 0,
-                                    child: CircleAvatar(
-                                      radius: 16,
-                                      backgroundColor: const Color(0xFF0077B6),
-                                      child: const Icon(
-                                        Icons.camera_alt,
-                                        size: 16,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            ),
+                      GestureDetector(
+                        onTap: () => setState(() => _isEditing = !_isEditing),
+                        child: Icon(
+                          _isEditing ? Icons.close : Icons.edit,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
 
-                            const SizedBox(height: 15),
+               
+                const SizedBox(height: 10),
+                Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.white.withOpacity(0.2),
+                      child: const Icon(
+                        Icons.person_rounded,
+                        size: 60,
+                        color: Colors.white,
+                      ),
+                    ),
+                    if (_isEditing)
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: CircleAvatar(
+                          radius: 16,
+                          backgroundColor: Colors.white,
+                          child: const Icon(
+                            Icons.camera_alt,
+                            size: 16,
+                            color: Color(0xFF0077B6),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 10),
 
-                            // ── Name ─────────────────────────────
-                            Text(
-                              _nameController.text,
-                              style: GoogleFonts.poppins(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF023232),
-                              ),
-                            ),
-                            const SizedBox(height: 4),
+                Text(
+                  _nameController.text,
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  _emailController.text,
+                  style: GoogleFonts.poppins(
+                    fontSize: 13,
+                    color: Colors.white70,
+                  ),
+                ),
 
-                            // ── Email ────────────────────────────
-                            Text(
-                              _emailController.text,
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: Colors.grey,
-                              ),
-                            ),
+                const SizedBox(height: 16),
 
-                            const SizedBox(height: 16),
+                
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _statBox("0", "Trips"),
+                    _statBox("0", "Reviews"),
+                    _statBox("0", "Saved"),
+                  ],
+                ),
 
-                            // ── Stats Row ────────────────────────
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                _statBox("0", "Trips"),
-                                _statBox("0", "Reviews"),
-                                _statBox("0", "Saved"),
-                              ],
-                            ),
+                const SizedBox(height: 20),
 
-                            const Divider(height: 30),
+               
+                Expanded(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
+                    ),
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+                      child: Column(
+                        children: [
+                         
+                          _profileField(
+                            label: "Full Name",
+                            controller: _nameController,
+                            icon: Icons.person_outline,
+                            enabled: _isEditing,
+                          ),
+                          _profileField(
+                            label: "Email",
+                            controller: _emailController,
+                            icon: Icons.email_outlined,
+                            enabled: _isEditing,
+                            type: TextInputType.emailAddress,
+                          ),
+                          _profileField(
+                            label: "Phone",
+                            controller: _phoneController,
+                            icon: Icons.phone_outlined,
+                            enabled: _isEditing,
+                            type: TextInputType.phone,
+                          ),
+                          _profileField(
+                            label: "New Password",
+                            controller: _passwordController,
+                            icon: Icons.lock_outline,
+                            enabled: _isEditing,
+                            obscure: true,
+                          ),
 
-                            // ── Profile Fields ───────────────────
-                            _profileField(
-                              label: "Full Name",
-                              controller: _nameController,
-                              icon: Icons.person_outline,
-                              enabled: _isEditing,
-                            ),
-                            _profileField(
-                              label: "Email",
-                              controller: _emailController,
-                              icon: Icons.email_outlined,
-                              enabled: _isEditing,
-                              type: TextInputType.emailAddress,
-                            ),
-                            _profileField(
-                              label: "Phone",
-                              controller: _phoneController,
-                              icon: Icons.phone_outlined,
-                              enabled: _isEditing,
-                              type: TextInputType.phone,
-                            ),
-                            _profileField(
-                              label: "New Password",
-                              controller: _passwordController,
-                              icon: Icons.lock_outline,
-                              enabled: _isEditing,
-                              obscure: true,
-                            ),
+                          const SizedBox(height: 10),
 
-                            const SizedBox(height: 10),
-
-                            // ── Save Button ──────────────────────
-                            if (_isEditing)
-                              SizedBox(
-                                width: double.infinity,
-                                height: 50,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF0077B6),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(14),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    setState(() => _isEditing = false);
-                                    Get.snackbar(
-                                      "Success",
-                                      "Profile updated!",
-                                      backgroundColor: Colors.green,
-                                      colorText: Colors.white,
-                                    );
-                                  },
-                                  child: Text(
-                                    "Save Changes",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                            const SizedBox(height: 15),
-
-                            // ── Logout Button ────────────────────
+                        
+                          if (_isEditing)
                             SizedBox(
                               width: double.infinity,
                               height: 50,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red.shade400,
+                                  backgroundColor: const Color(0xFF0077B6),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(14),
                                   ),
                                 ),
                                 onPressed: () {
-                                  Get.dialog(
-                                    AlertDialog(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                      title: Text(
-                                        "Logout",
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color(0xFF023232),
-                                        ),
-                                      ),
-                                      content: Text(
-                                        "Are you sure you want to logout?",
-                                        style: GoogleFonts.poppins(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () => Get.back(),
-                                          child: Text(
-                                            "Cancel",
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.grey,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Get.offAllNamed('/');
-                                          },
-                                          child: Text(
-                                            "Logout",
-                                            style: GoogleFonts.poppins(
-                                              color: const Color(0xFF0077B6),
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                  setState(() => _isEditing = false);
+                                  Get.snackbar(
+                                    "Success",
+                                    "Profile updated!",
+                                    backgroundColor: Colors.green,
+                                    colorText: Colors.white,
                                   );
                                 },
                                 child: Text(
-                                  "Logout",
+                                  "Save Changes",
                                   style: GoogleFonts.poppins(
                                     fontSize: 16,
                                     color: Colors.white,
@@ -287,13 +220,82 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+
+                          const SizedBox(height: 15),
+
+                         
+                          SizedBox(
+                            width: double.infinity,
+                            height: 50,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF0077B6),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                              ),
+                              onPressed: () {
+                                Get.dialog(
+                                  AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    title: Text(
+                                      "Logout",
+                                      style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(0xFF023232),
+                                      ),
+                                    ),
+                                    content: Text(
+                                      "Are you sure you want to logout?",
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Get.back(),
+                                        child: Text(
+                                          "Cancel",
+                                          style: GoogleFonts.poppins(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Get.offAllNamed('/');
+                                        },
+                                        child: Text(
+                                          "Logout",
+                                          style: GoogleFonts.poppins(
+                                            color: const Color(0xFF0077B6),
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Logout",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -301,7 +303,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // ── Stat Box ───────────────────────────────────────────
   Widget _statBox(String value, String label) {
     return Column(
       children: [
@@ -310,18 +311,17 @@ class _ProfilePageState extends State<ProfilePage> {
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: const Color(0xFF0077B6),
+            color: Colors.white,
           ),
         ),
         Text(
           label,
-          style: GoogleFonts.poppins(color: Colors.grey, fontSize: 13),
+          style: GoogleFonts.poppins(color: Colors.white70, fontSize: 13),
         ),
       ],
     );
   }
 
-  // ── Profile Field ──────────────────────────────────────
   Widget _profileField({
     required String label,
     required TextEditingController controller,

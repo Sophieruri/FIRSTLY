@@ -39,7 +39,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
       final response = await http.post(
         Uri.parse('http://localhost/travelapp/save_booking.php'),
         body: {
-          'user_id': '1', // replace with actual logged in user id later
+          'user_id': '1', 
           'destination_id': widget.destination['Destination_id'].toString(),
           'date': _selectedDate!.toIso8601String().split('T')[0],
           'price': widget.destination['price'].toString(),
@@ -83,7 +83,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── Destination Info Card ───────────────
+              
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
@@ -176,7 +176,6 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
 
               const SizedBox(height: 24),
 
-              // ── Date Picker ─────────────────────────
               const Text(
                 "Select Travel Date",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -212,7 +211,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
 
               const SizedBox(height: 30),
 
-              // ── Confirm Button ──────────────────────
+          
               SizedBox(
                 width: double.infinity,
                 height: 50,

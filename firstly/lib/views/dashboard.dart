@@ -111,7 +111,7 @@ class _DashboardState extends State<Dashboard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // ── Search Bar ──────────────────────────
+                     
                       TextField(
                         controller: _searchController,
                         onChanged: _onSearch,
@@ -164,7 +164,7 @@ class _DashboardState extends State<Dashboard> {
 
                       const SizedBox(height: 20),
 
-                      // ── Special Deal Banner ─────────────────
+                    
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(18),
@@ -224,7 +224,7 @@ class _DashboardState extends State<Dashboard> {
 
                       const SizedBox(height: 24),
 
-                      // ── Quick Actions ───────────────────────
+                     
                       Text(
                         "Quick Actions",
                         style: GoogleFonts.poppins(
@@ -291,7 +291,7 @@ class _DashboardState extends State<Dashboard> {
                                           color: Color(0xFF0077B6),
                                         ),
                                         title: Text(
-                                          "+254 700 000 000",
+                                          "+254 794 000 140",
                                           style: GoogleFonts.poppins(
                                             fontSize: 13,
                                           ),
@@ -320,7 +320,7 @@ class _DashboardState extends State<Dashboard> {
 
                       const SizedBox(height: 24),
 
-                      // ── Popular Destinations ────────────────
+                      
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -381,7 +381,7 @@ class _DashboardState extends State<Dashboard> {
 
                       const SizedBox(height: 24),
 
-                      // ── All Destinations List ───────────────
+                     
                       Text(
                         "All Destinations",
                         style: GoogleFonts.poppins(
@@ -407,7 +407,7 @@ class _DashboardState extends State<Dashboard> {
   }
 }
 
-// ── Horizontal Destination Card ───────────────────────────
+
 class _DestinationCard extends StatelessWidget {
   final dynamic destination;
   const _DestinationCard({required this.destination});
@@ -533,7 +533,6 @@ class _DestinationCard extends StatelessWidget {
   }
 }
 
-// ── Search Result / All Destinations List Tile ────────────
 class _DestinationListTile extends StatelessWidget {
   final dynamic destination;
   const _DestinationListTile({required this.destination});
@@ -607,7 +606,7 @@ class _DestinationListTile extends StatelessWidget {
   }
 }
 
-// ── Quick Action Button ───────────────────────────────────
+
 class _QuickAction extends StatelessWidget {
   final IconData icon;
   final String label;
